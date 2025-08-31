@@ -45,9 +45,13 @@ tgt_seq = torch.cat(
 
 # TODO 构造word embedding
 # 创建源词嵌入表（embedding table）：一个嵌入层，将词索引映射到model_dim维向量，词表大小为max_num_src_words+1（包括padding的0）
+# +1 的作用是为了在词汇表大小中额外分配一个索引，通常用于表示 padding token（填充标记，索引通常为 0）
 src_embedding_table = nn.Embedding(max_num_src_words+1, model_dim)
 # 创建目标词嵌入表：类似源嵌入表，词表大小为max_num_tgt_words+1
 tgt_embedding_table = nn.Embedding(max_num_tgt_words+1, model_dim)
+
+print(src_embedding_table.weight)
+
 # 获取源序列的词嵌入：将src_seq输入嵌入表，得到形状为[batch_size, max_src_seq_len, model_dim]的张量
 src_embedding = src_embedding_table(src_seq)
 # 获取目标序列的词嵌入：类似，得到形状为[batch_size, max_tgt_seq_len, model_dim]的张量
